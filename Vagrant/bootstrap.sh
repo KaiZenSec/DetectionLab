@@ -2,8 +2,9 @@
 
 install_mongo_db_apt_key() {
   # Install key and apt source for MongoDB
-  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
-  echo "deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -sc)/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+  #apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+  wget -qO- https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add
+  echo "deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -sc)/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
 }
 
 apt_install_prerequisites() {
