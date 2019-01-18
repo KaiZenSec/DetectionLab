@@ -10,7 +10,7 @@ install_mongo_db_apt_key() {
 apt_install_prerequisites() {
   # Install prerequisites and useful tools
   apt-get update
-  apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org
+  apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org golang python3-pip
   # Check if DetectionLab is already installed
   if [ -f "/opt/DetectionLab/build.sh" ]; then
     echo "DetectionLab is already installed"
@@ -174,7 +174,7 @@ install_caldera() {
     cd /home/vagrant || exit
     git clone https://github.com/mitre/caldera.git
     cd /home/vagrant/caldera/caldera || exit
-    pip3.6 install -r requirements.txt
+    pip3 install -r requirements.txt
 
     # Add a Systemd service for MongoDB
     # https://www.howtoforge.com/tutorial/install-mongodb-on-ubuntu-16.04/
