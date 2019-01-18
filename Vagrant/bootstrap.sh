@@ -12,26 +12,26 @@ apt_install_prerequisites() {
   apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org
 }
 
-fix_eth1_static_ip() {
+#fix_ens160_static_ip() {
   # There's a fun issue where dhclient keeps messing with eth1 despite the fact
   # that eth1 has a static IP set. We workaround this by setting a static DHCP lease.
-  echo -e 'interface "eth1" {
-    send host-name = gethostname();
-    send dhcp-requested-address 192.168.38.105;
-  }' >> /etc/dhcp/dhclient.conf
+#  echo -e 'interface "ens160" {
+#    send host-name = gethostname();
+#    send dhcp-requested-address 192.168.38.105;
+#  }' >> /etc/dhcp/dhclient.conf
   service networking restart
   # Fix eth1 if the IP isn't set correctly
-  ETH1_IP=$(ifconfig eth1 | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1)
-  if [ "$ETH1_IP" != "192.168.38.105" ]; then
+  ens160_IP=$(ifconfig ens160 | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1)
+  if [ "$ens160_IP" != "10.0.0.100" ]; then
     echo "Incorrect IP Address settings detected. Attempting to fix."
-    ifdown eth1
-    ip addr flush dev eth1
-    ifup eth1
-    ETH1_IP=$(ifconfig eth1 | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1)
-    if [ "$ETH1_IP" == "192.168.38.105" ]; then
-      echo "The static IP has been fixed and set to 192.168.38.105"
+    ifdown ens160
+    ip addr flush dev ens160
+    ifup ens160
+    ETH1_IP=$(ifconfig ens160 | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1)
+    if [ "$ens160_IP" == "10.0.0.100" ]; then
+      echo "The static IP has been fixed and set to 10.0.0.100"
     else
-      echo "Failed to fix the broken static IP for eth1. Exiting because this will cause problems with other VMs."
+      echo "Failed to fix the broken static IP for ens160. Exiting because this will cause problems with other VMs."
       exit 1
     fi
   fi
@@ -138,7 +138,7 @@ import_osquery_config_into_fleet() {
   wget https://github.com/kolide/fleet/releases/download/2.0.1/fleet_2.0.1.zip
   unzip fleet_2.0.1.zip -d fleet_2.0.1
   cp fleet_2.0.1/linux/fleetctl /usr/local/bin/fleetctl && chmod +x /usr/local/bin/fleetctl
-  fleetctl config set --address https://192.168.38.105:8412
+  fleetctl config set --address https://10.0.0.100:8412
   fleetctl config set --tls-skip-verify true
   fleetctl setup --email admin@detectionlab.network --password 'admin123#' --org-name DetectionLab
   fleetctl login --email admin@detectionlab.network --password 'admin123#'
