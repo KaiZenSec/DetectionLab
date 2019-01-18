@@ -11,6 +11,15 @@ apt_install_prerequisites() {
   # Install prerequisites and useful tools
   apt-get update
   apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org
+  # Check if DetectionLab is already installed
+  if [ -f "/opt/DetectionLab/build.sh" ]; then
+    echo "DetectionLab is already installed"
+  else
+  cd /opt
+  git clone https://github.com/KaiZenSec/DetectionLab.git
+  cd /opt/DetectionLab/Vagrant
+  mkdir /vagrant && cp -r resources /vagrant
+  fi
 }
 
 #fix_ens160_static_ip() {
