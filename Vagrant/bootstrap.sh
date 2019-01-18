@@ -19,23 +19,23 @@ apt_install_prerequisites() {
 #    send host-name = gethostname();
 #    send dhcp-requested-address 192.168.38.105;
 #  }' >> /etc/dhcp/dhclient.conf
-  service networking restart
+#  service networking restart
   # Fix eth1 if the IP isn't set correctly
-  ens160_IP=$(ifconfig ens160 | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1)
-  if [ "$ens160_IP" != "10.0.0.100" ]; then
-    echo "Incorrect IP Address settings detected. Attempting to fix."
-    ifdown ens160
-    ip addr flush dev ens160
-    ifup ens160
-    ETH1_IP=$(ifconfig ens160 | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1)
-    if [ "$ens160_IP" == "10.0.0.100" ]; then
-      echo "The static IP has been fixed and set to 10.0.0.100"
-    else
-      echo "Failed to fix the broken static IP for ens160. Exiting because this will cause problems with other VMs."
-      exit 1
-    fi
-  fi
-}
+#  ens160_IP=$(ifconfig ens160 | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1)
+#  if [ "$ens160_IP" != "10.0.0.100" ]; then
+#    echo "Incorrect IP Address settings detected. Attempting to fix."
+#    ifdown ens160
+#    ip addr flush dev ens160
+#    ifup ens160
+#    ETH1_IP=$(ifconfig ens160 | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1)
+#    if [ "$ens160_IP" == "10.0.0.100" ]; then
+#      echo "The static IP has been fixed and set to 10.0.0.100"
+#    else
+#      echo "Failed to fix the broken static IP for ens160. Exiting because this will cause problems with other VMs."
+#      exit 1
+#    fi
+#  fi
+#}
 
 install_python() {
   # Install Python 3.6.4
