@@ -10,7 +10,7 @@ install_mongo_db_apt_key() {
 apt_install_prerequisites() {
   # Install prerequisites and useful tools
   apt-get update
-  apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org golang python3-pip
+  apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org golang python3-pip mysql-server
   # Check if DetectionLab is already installed
   if [ -f "/opt/DetectionLab/build.sh" ]; then
     echo "DetectionLab is already installed"
