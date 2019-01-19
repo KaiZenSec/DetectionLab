@@ -11,6 +11,8 @@ apt_install_prerequisites() {
   # Install prerequisites and useful tools
   apt-get update
   apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org golang python3-pip mysql-server
+  echo 'export GOPATH=$HOME/go' >> ~/.bashrc
+  export GOPATH=$HOME/go
   # Check if DetectionLab is already installed
   if [ -f "/vagrant" ]; then
     echo "DetectionLab is already installed"
