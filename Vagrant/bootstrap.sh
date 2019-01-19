@@ -16,7 +16,6 @@ apt_install_prerequisites() {
     echo "DetectionLab is already installed"
   else
   cd /opt
-  git clone https://github.com/KaiZenSec/DetectionLab.git
   cd /opt/DetectionLab/Vagrant
   mkdir /vagrant && cp -r resources /vagrant
   fi
