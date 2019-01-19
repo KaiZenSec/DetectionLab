@@ -10,7 +10,7 @@ install_mongo_db_apt_key() {
 apt_install_prerequisites() {
   # Install prerequisites and useful tools
   apt-get update
-  apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org golang python3-pip mysql-server python-pip openssl
+  apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org golang python3-pip mysql-server python-pip openssl build-essential libssl-dev libffi-dev python-dev
   pip install --upgrade pip
   pip install --upgrade cryptography
   echo 'export GOPATH=$HOME/go' >> ~/.bashrc
