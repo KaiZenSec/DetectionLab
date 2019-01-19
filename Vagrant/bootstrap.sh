@@ -12,7 +12,7 @@ apt_install_prerequisites() {
   apt-get update
   apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org golang python3-pip mysql-server
   # Check if DetectionLab is already installed
-  if [ -f "/opt/DetectionLab/build.sh" ]; then
+  if [ -f "/vagrant" ]; then
     echo "DetectionLab is already installed"
   else
   cd /opt
