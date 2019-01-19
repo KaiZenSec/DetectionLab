@@ -239,11 +239,11 @@ install_bro() {
   crudini --set $NODECFG proxy host localhost
 
   # Setup $CPUS numbers of bro workers
-  crudini --set $NODECFG worker-eth1 type worker
-  crudini --set $NODECFG worker-eth1 host localhost
-  crudini --set $NODECFG worker-eth1 interface eth1
-  crudini --set $NODECFG worker-eth1 lb_method pf_ring
-  crudini --set $NODECFG worker-eth1 lb_procs "$(nproc)"
+  crudini --set $NODECFG worker-ens160 type worker
+  crudini --set $NODECFG worker-ens160 host localhost
+  crudini --set $NODECFG worker-ens160 interface ens160
+  crudini --set $NODECFG worker-ens160 lb_method pf_ring
+  crudini --set $NODECFG worker-ens160 lb_procs "$(nproc)"
 
   # Setup bro to run at boot
   cp /vagrant/resources/bro/bro.service /lib/systemd/system/bro.service
@@ -311,10 +311,10 @@ install_suricata() {
   /root/go/bin/yq d  -i /etc/suricata/suricata.yaml outputs.1.eve-log.types.2 # Remove SSH
   /root/go/bin/yq d  -i /etc/suricata/suricata.yaml outputs.1.eve-log.types.2 # Remove Stats
   /root/go/bin/yq d  -i /etc/suricata/suricata.yaml outputs.1.eve-log.types.2 # Remove Flow
-  # AF packet monitoring should be set to eth1
-  /root/go/bin/yq w -i /etc/suricata/suricata.yaml af-packet.0.interface eth1
+  # AF packet monitoring should be set to ens160
+  /root/go/bin/yq w -i /etc/suricata/suricata.yaml af-packet.0.interface ens160
 
-  crudini --set --format=sh /etc/default/suricata '' iface eth1
+  crudini --set --format=sh /etc/default/suricata '' iface ens160
   # update suricata signature sources
   suricata-update update-sources
   # disable protocol decode as it is duplicative of bro
@@ -342,7 +342,7 @@ install_suricata() {
 main() {
   install_mongo_db_apt_key
   apt_install_prerequisites
-  fix_eth1_static_ip
+  fix_ens160_static_ip
   install_python
   install_splunk
   install_fleet
